@@ -27,10 +27,5 @@
 - gulp clear
   - debugとreleaseフォルダの中身を全消し
 
-
-## memo
-- パッケージのバージョンを上げた
-- minifyとかrelease用のファイルはdebugに生成されたファイルから生成するようにしよう
-
 ## reset.css
 http://html5doctor.com/html-5-reset-stylesheet/
