@@ -1,5 +1,5 @@
 # WEB_SIMPLE
-- html: raw
+- html: pug
 - css: stylus
 - js: babel
 - Javascript Standard Style 準拠
