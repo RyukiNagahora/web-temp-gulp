@@ -16,7 +16,7 @@ const uglify = require('gulp-uglify')
 function browsersync (cb) {
   browserSync.init({
     server: {
-      https: true,
+      https: false,
       baseDir: './debug'
     }
   }, cb)
@@ -98,6 +98,16 @@ function htmlCompile () {
     }))
     .pipe(gulp.dest('./debug'))
 }
+function htmlCompileRelease () {
+  return gulp.src(['./src/pug/**/*.pug', '!' + './src/pug/**/_*.pug'])
+    .pipe(plumber({
+      errorHandler: notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe(pug({
+      pretty: true
+    }))
+    .pipe(gulp.dest('./release'))
+}
 function copyHtml(){
   return gulp.src(['./src/html/**'])
     .pipe(gulp.dest('./debug/'))
@@ -135,6 +145,8 @@ function cleanAssets () {
 
 /* exports */
 exports.assets = gulp.series(cleanAssets, copyAssets)
-exports.default = gulp.series(cleanDebug, jsTranspileDebug, cssTranspile, copyHtml, browsersync, watch)
-exports.release = gulp.series(cleanAssets, copyAssets, cleanRelease, jsTranspileRelease, cssTranspileRelease, copyHtml)
+// exports.default = gulp.series(cleanDebug, jsTranspileDebug, cssTranspile, copyHtml, browsersync, watch)
+exports.default = gulp.series(cleanDebug, jsTranspileDebug, cssTranspile, htmlCompile, browsersync, watch)
+// exports.release = gulp.series(cleanAssets, copyAssets, cleanRelease, jsTranspileRelease, cssTranspileRelease, copyHtml)
+exports.release = gulp.series(cleanAssets, copyAssets, cleanRelease, jsTranspileRelease, cssTranspileRelease, htmlCompileRelease)
 exports.clear = gulp.series(cleanDebug, cleanRelease)
